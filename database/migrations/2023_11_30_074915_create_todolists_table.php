@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('status');
             $table->string('filename')->nullable();
             $table->timestamps();
+            
         });
     }
 

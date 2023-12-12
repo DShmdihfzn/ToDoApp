@@ -13,10 +13,15 @@ return new class extends Migration
     {
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('to_do_list_id');
+            $table->unsignedBigInteger('to_do_list_id');
             $table->date('remind_date');
             $table->time('remind_time');
             $table->timestamps();
+
+            $table->foreign('to_do_list_id')
+                ->references('id')
+                ->on('todolists')
+                ->onDelete('cascade');
         });
     }
 
