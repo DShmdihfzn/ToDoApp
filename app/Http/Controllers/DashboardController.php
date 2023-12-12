@@ -62,7 +62,7 @@ class DashboardController extends Controller
 
             $list->update([
                 'title' => $inputs['name'] ?? null,
-                'category' => $inputs['category'] ?? null,
+                'type' => $inputs['category'] ?? null,
                 'notes' => $inputs['notes'] ?? null
             ]);
         }   

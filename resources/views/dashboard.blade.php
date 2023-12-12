@@ -45,12 +45,13 @@
                                         <input type="number" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$2999" required="">
                                     </div> --}}
                                     <div class="col-span-2 sm:col-span-1">
+                                        @php $categories = ['Urgent', 'Medium', 'Chillax'] @endphp
                                         <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
                                         <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500" name="category" required>
                                             <option value="">Select category</option>
-                                            <option value="U">Urgent</option>
-                                            <option value="M">Medium</option>
-                                            <option value="C">Chillax</option>
+                                        @foreach($categories as $category)
+                                            <option value={{ $category }}>{{  $category }}</option>
+                                        @endforeach
                                         </select>
                                     </div>
                                     <div class="col-span-2">
@@ -143,7 +144,7 @@
 
 
 
-    $('[data-modal-target="edit-modal"]').click(function() {
+    $('[data-modal-toggle="edit-modal"]').click(function() {
             var itemId = $(this).data('item-id'); 
             $.ajax({
                 url: '/get_list',
@@ -170,49 +171,15 @@
             });
         });
 
-        // $('#edit-form').submit(function(event) {
-        //     event.preventDefault(); // Prevent the default form submission
-
-        //     // Get CSRF token value
-        //     var csrfToken = "{{ csrf_token() }}";
-
-        //     // Collect form data
-        //     var formData = $(this).serialize();
-        //     formData += '&type=edit';
-        //     // Make AJAX request with CSRF token included in headers
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '/dashboard/upsert',
-        //         data: formData,
-        //         headers: {
-        //             'X-CSRF-TOKEN': csrfToken
-        //         },
-        //         dataType: 'json',
-        //         success: function(response) {
-        //             // Handle success response
-        //             // Close the modal
-        //             $('[data-modal-toggle="edit-modal"]').click()
-
-        //         },
-        //         error: function(error) {
-        //             // Handle error
-        //             console.error('Error:', error);
-        //             $('#create_new').html('Add list'); // Reset button text
-        //         },
-        //     });
-        // });
-        $(document).on('submit', '#edit-form', function(event) {
+        $('#edit-form').submit(function(event) {
             event.preventDefault(); // Prevent the default form submission
-
-            var form = $(this); // Reference to the current form being submitted
 
             // Get CSRF token value
             var csrfToken = "{{ csrf_token() }}";
 
             // Collect form data
-            var formData = form.serialize();
+            var formData = $(this).serialize();
             formData += '&type=edit';
-
             // Make AJAX request with CSRF token included in headers
             $.ajax({
                 type: 'POST',
@@ -225,9 +192,8 @@
                 success: function(response) {
                     // Handle success response
                     // Close the modal
-                    console.log('saya');
-                    $('[data-modal-toggle="edit-modal"]').click();
-                    // form.closest('[data-modal-toggle="edit-modal"]').click();
+                    // $('[data-modal-toggle="edit-modal"]').click()
+                    $('[data-modal-target="edit-modal"]').click()
                 },
                 error: function(error) {
                     // Handle error
@@ -236,7 +202,7 @@
                 },
             });
         });
-
+        
     $(document).ready(function(){ 
 
         $('.deleteButton').click(function() {

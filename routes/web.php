@@ -1,8 +1,11 @@
 <?php
-
+use App\Mail\HelloMail;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MyEmail;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +30,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
 Route::post('/dashboard/upsert', [DashboardController::class, 'index']);
 Route::delete('/dashboard/delete/{id}', [DashboardController::class, 'delete']);
 Route::get('/get_list', [DashboardController::class, 'getList']);
-
+Route::get('/dashboard/mail', function () {
+   Mail::to('hamdihafizan30@gmail.com')->send(new MyEmail());
+})->middleware(['auth', 'verified']);
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
