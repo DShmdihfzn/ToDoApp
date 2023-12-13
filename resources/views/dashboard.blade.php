@@ -114,8 +114,8 @@
                         @include('delete')
                     </div>
                 </div>
-                @include('edit_list')
             @endforeach
+            @include('edit_list')
         </div>
     </div>
     <!-- LIST SECTION -->
@@ -144,8 +144,9 @@
 
 
 
-    $('[data-modal-toggle="edit-modal"]').click(function() {
+    $('[data-modal-target="edit-modal"]').click(function() {
             var itemId = $(this).data('item-id'); 
+            console.log(itemId);
             $.ajax({
                 url: '/get_list',
                 type: 'GET',
@@ -176,6 +177,7 @@
 
             // Get CSRF token value
             var csrfToken = "{{ csrf_token() }}";
+            var closeEdit = document.getElementById('close-edit');
 
             // Collect form data
             var formData = $(this).serialize();
@@ -192,8 +194,9 @@
                 success: function(response) {
                     // Handle success response
                     // Close the modal
-                    // $('[data-modal-toggle="edit-modal"]').click()
-                    $('[data-modal-target="edit-modal"]').click()
+                    // $('[data-modal-toggle="edit-modal"]').click();
+                    // $('[data-modal-target="edit-modal"]').click();
+                    closeEdit.click();
                 },
                 error: function(error) {
                     // Handle error
